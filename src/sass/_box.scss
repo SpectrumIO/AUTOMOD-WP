@@ -1,0 +1,30 @@
+.automod--box {
+  background: white;
+  border-bottom: 2px solid $border;
+  margin-bottom: $base * 2;
+}
+
+.automod--box-title {
+  border-bottom: 1px solid $border;
+  padding: $base ($base * 2);
+
+  h1, h2 {
+    line-height: 1;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 100;
+  }
+
+  h2 {
+    margin: 0;
+    font-weight: 100;
+  }
+}
+
+.automod--box-content {
+  padding: $base * 2;
+}
+

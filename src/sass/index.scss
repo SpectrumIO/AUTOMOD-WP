@@ -1,2 +1,26 @@
-@import 'simple-grid.scss';
+@import 'variables';
+@import 'elements';
+@import 'grid';
+@import 'onboarding';
 @import 'home';
+@import 'box';
+
+.automod {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.no-y-margin {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.automod--notices {
+  margin-bottom: $base * 1.5;
+
+  .notice {
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: $base / 2;
+  }
+}

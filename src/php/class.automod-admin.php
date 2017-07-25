@@ -76,9 +76,15 @@ class Automod_Admin {
     }
 
     public static function render_notices() {
+        if (empty(self::$notices)) {
+            return;
+        }
+
+        print '<div class="automod--notices">';
         foreach (self::$notices as $notice) {
             Automod::view('notice', self::$notices_index[$notice]);
         }
+        print '</div>';
     }
 
     public static function comment_status_meta_box($comment) {
@@ -120,6 +126,7 @@ class Automod_Admin {
 
         if (!$login_response) {
             self::$notices[] = 'login-failed';
+            return;
         }
 
         try {

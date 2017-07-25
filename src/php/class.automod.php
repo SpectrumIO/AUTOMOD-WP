@@ -89,6 +89,10 @@ class Automod {
 
     }
 
+    public static function cleanup() {
+        delete_option(AUTOMOD__API_KEY_OPTION_NAME);
+    }
+
     public static function get_comment_history($comment_id) {
         // failsafe for old WP versions
         if (!function_exists('add_comment_meta')) {

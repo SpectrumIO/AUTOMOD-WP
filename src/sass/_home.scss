@@ -12,3 +12,17 @@
 .automod--api-key {
   width: 100%;
 }
+
+.automod--green-pip {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 8px;
+  margin-right: 3px;
+  background-color: green;
+  content: '';
+}
+
+.automod--home-disconnect {
+  margin-top: $base;
+}

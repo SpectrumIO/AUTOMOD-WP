@@ -29,3 +29,5 @@ add_action('init', array('Automod', 'init'));
 if (is_admin()) {
     add_action('init', array('Automod_Admin', 'init'));
 }
+
+register_uninstall_hook(__FILE__, array('Automod', 'cleanup'));

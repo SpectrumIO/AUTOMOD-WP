@@ -1,51 +1,37 @@
 <div class="automod">
-    <div class="container metabox-holder">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
-                <div class="automod--body">
-                    <h1>Spectrum AutoMod</h1>
+            <div class="col-md-12">
+                <div class="automod--box">
+                    <div class="automod--box-title">
+                        <h1>Spectrum AutoMod</h1>
+                    </div>
+                    <div class="automod--box-content">
+                        grpah goes here
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-6">
-                <div class="postbox-container">
-                    <div class="postbox">
-                        <h2 class="hndle">
-                            Account Info
-                        </h2>
-                        <div class="inside">
-                            <p>Your account is currently active.</p>
-                            <p>Your API Key:</p>
-                            <p>
-                                <input
-                                        type="text"
-                                        disabled
-                                        value="<?php print $api_key; ?>"
-                                        class="automod--api-key"
-                                />
-                            </p>
-                            <form action="">
-                                <button class="button button-secondary">
-                                    Disconnect Account
-                                </button>
-                            </form>
-                        </div>
+            <div class="col-md-6">
+                <div class="automod--box">
+                    <div class="automod--box-title">
+                        <h2>System Info</h2>
                     </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="postbox-container">
-                    <div class="postbox">
-                        <h2 class="hndle">
-                            Subscription Info
-                        </h2>
-                        <div class="inside">
-                            <p>You're currently on the STARTER plan.</p>
-                            <a href="#" class="button button-primary">
-                                Upgrade &raquo;
-                            </a>
-                        </div>
+                    <div class="automod--box-content">
+                        <p><i class="automod--green-pip"></i> You're all set!</p>
+                        <label>Your API Key</label>
+                        <input
+                                type="text"
+                                disabled
+                                value="<?php print $api_key; ?>"
+                                class="automod--api-key form-control"
+                        />
+                        <form action="" class="automod--home-disconnect">
+                            <button class="btn btn-secondary">
+                                Disconnect Account
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
