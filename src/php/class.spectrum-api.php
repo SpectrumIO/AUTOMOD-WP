@@ -77,6 +77,13 @@ class Spectrum_Api {
         ));
     }
 
+    public function record_user_classification($content, $adjudication) {
+        return $this->call_rpc_method('classification', 'recordUserClassification', array(
+            'content' => $content,
+            'adjudication' => $adjudication
+        ));
+    }
+
     public static function is_ok($response) {
         return $response['response']['code'] === 200 &&
             !array_key_exists('error', $response['body']);

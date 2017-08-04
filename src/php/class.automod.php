@@ -23,6 +23,7 @@ class Automod {
 
         add_filter('preprocess_comment', array('Automod', 'check_comment'), 1);
         add_action('wp_insert_comment', array('Automod', 'check_comment_post_insert'), 10, 2);
+        add_action('wp_set_comment_status', array('Automod', 'record_manual_comment_adjudication'), 10, 2);
     }
 
     public static function check_comment($comment_data) {
@@ -85,8 +86,23 @@ class Automod {
         self::record_feedback($comment->comment_ID);
     }
 
-    public static function record_feedback($comment_id) {
+    public static function record_manual_comment_adjudication($comment_id, $comment_status) {
+        $comment = get_comment( $comment_id )->comment_content;
 
+        if ($comment_status == 'approve') {
+            $comment_status = 'ALLOW';
+        }
+        else {
+            $comment_status = 'BLOCK';
+        }
+
+        try {
+            $result = self::$api->record_user_classification($comment, $comment_status);
+        } catch (NetworkException $e) {
+            $result = 'error';
+        }
+
+        return $result;
     }
 
     public static function cleanup() {
