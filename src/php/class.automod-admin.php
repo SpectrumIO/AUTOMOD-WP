@@ -31,6 +31,8 @@ class Automod_Admin {
 
         if (isset($_POST['action']) && $_POST['action'] == 'create-integration') {
             self::create_integration();
+        } elseif (isset($_POST['action']) && $_POST['action'] == 'disconnect') {
+            self::disconnect_integration();
         }
     }
 
@@ -139,5 +141,9 @@ class Automod_Admin {
         self::$notices[] = 'create-integration-succeeded';
 
         update_option(AUTOMOD__API_KEY_OPTION_NAME, $create_integration_response['body']['result']['apiKey']);
+    }
+
+    private static function disconnect_integration() {
+        Automod::cleanup();
     }
 }

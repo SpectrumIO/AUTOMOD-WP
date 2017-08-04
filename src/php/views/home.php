@@ -7,7 +7,7 @@
                         <h1>Spectrum AutoMod</h1>
                     </div>
                     <div class="automod--box-content">
-                        grpah goes here
+                        Analytics will appear here.
                     </div>
                 </div>
             </div>
@@ -27,7 +27,8 @@
                                 value="<?php print $api_key; ?>"
                                 class="automod--api-key form-control"
                         />
-                        <form action="" class="automod--home-disconnect">
+                        <form action="<?php print esc_url(Automod_Admin::get_page_url()) ?>" method="POST" class="automod--home-disconnect">
+                            <input type="hidden" name="action" value="disconnect">
                             <button class="btn btn-secondary">
                                 Disconnect Account
                             </button>
