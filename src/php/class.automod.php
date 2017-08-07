@@ -23,7 +23,8 @@ class Automod {
 
         add_filter('preprocess_comment', array('Automod', 'check_comment'), 1);
         add_action('wp_insert_comment', array('Automod', 'check_comment_post_insert'), 10, 2);
-        add_action('wp_set_comment_status', array('Automod', 'record_manual_comment_adjudication'), 10, 2);
+        add_action('transition_comment_status', array('Automod', 'transition_comment_status'), 10, 3);
+
     }
 
     public static function check_comment($comment_data) {
@@ -67,11 +68,11 @@ class Automod {
     }
 
     public static function transition_comment_status($new_status, $old_status, $comment) {
-        if ($new_status == $old_status) {
-            return;
-        }
 
-        if ($new_status == 'delete') {
+        $new_status =  self::to_spectrum_adjudication($new_status);
+        $old_status =  self::to_spectrum_adjudication($old_status);
+
+        if ($new_status == $old_status) {
             return;
         }
 
@@ -83,26 +84,24 @@ class Automod {
             return;
         }
 
-        self::record_feedback($comment->comment_ID);
+        try {
+            $result = self::$api->record_user_classification($comment->comment_content, $new_status);
+        } catch (NetworkException $e) {
+            $result = 'error';
+        }
+
+        return $result;
     }
 
-    public static function record_manual_comment_adjudication($comment_id, $comment_status) {
-        $comment = get_comment( $comment_id )->comment_content;
-
-        if ($comment_status == 'approve') {
+    public static function to_spectrum_adjudication($comment_status) {
+        if ($comment_status == 'approved') {
             $comment_status = 'ALLOW';
         }
         else {
             $comment_status = 'BLOCK';
         }
 
-        try {
-            $result = self::$api->record_user_classification($comment, $comment_status);
-        } catch (NetworkException $e) {
-            $result = 'error';
-        }
-
-        return $result;
+        return $comment_status;
     }
 
     public static function cleanup() {
