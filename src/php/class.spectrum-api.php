@@ -84,6 +84,10 @@ class Spectrum_Api {
         ));
     }
 
+    public function fetch_analytics() {
+        return $this->call_rpc_method('integrationAnalytics', 'getDailyRollupsMtd');
+    }
+
     public static function is_ok($response) {
         return $response['response']['code'] === 200 &&
             !array_key_exists('error', $response['body']);

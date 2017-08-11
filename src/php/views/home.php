@@ -1,3 +1,6 @@
+<script>
+    window.analyticsData = JSON.parse(<?php print json_encode($analytics_data); ?>);
+</script>
 <div class="container-fluid automod">
     <div class="row">
         <div class="col-md-12">
