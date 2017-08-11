@@ -1,39 +1,57 @@
-<div class="automod">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="automod--box">
-                    <div class="automod--box-title">
-                        <h1>Spectrum AutoMod</h1>
-                    </div>
-                    <div class="automod--box-content">
-                        Analytics will appear here.
-                    </div>
+<div class="container-fluid automod">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="automod--box">
+                <div class="automod--box-title">
+                    <h1>Spectrum AutoMod</h1>
+                </div>
+                <div class="automod--box-content">
+                    Analytics will appear here.
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="automod--box">
-                    <div class="automod--box-title">
-                        <h2>System Info</h2>
-                    </div>
-                    <div class="automod--box-content">
-                        <p><i class="automod--green-pip"></i> You're all set!</p>
-                        <label>Your API Key</label>
-                        <input
-                                type="text"
-                                disabled
-                                value="<?php print $api_key; ?>"
-                                class="automod--api-key form-control"
-                        />
-                        <form action="<?php print esc_url(Automod_Admin::get_page_url()) ?>" method="POST" class="automod--home-disconnect">
-                            <input type="hidden" name="action" value="disconnect">
-                            <button class="btn btn-secondary">
-                                Disconnect Account
-                            </button>
-                        </form>
-                    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="automod--box">
+                <div class="automod--box-title">
+                    <h2>System Info</h2>
+                </div>
+                <div class="automod--box-content">
+                    <p><i class="automod--green-pip"></i> You're all set!</p>
+                    <label>Your API Key</label>
+                    <input
+                            type="text"
+                            disabled
+                            value="<?php print $api_key; ?>"
+                            class="automod--api-key form-control"
+                    />
+                    <form action="<?php print esc_url(Automod_Admin::get_page_url()) ?>" method="POST"
+                          class="automod--home-disconnect">
+                        <input type="hidden" name="action" value="disconnect">
+                        <button class="btn btn-secondary">
+                            Disconnect Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="automod--box">
+                <div class="automod--box-title">
+                    <h2>Actions</h2>
+                </div>
+                <div class="automod--box-content">
+                    <p>
+                        <a class="btn btn-primary" href="https://app.getspectrum.io">
+                            Visit Spectrum Dashboard &raquo;
+                        </a>
+                    </p>
+                    <p>
+                        <a class="btn btn-secondary" href="https://help.getspectrum.io">
+                            Visit Help Center &raquo;
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>

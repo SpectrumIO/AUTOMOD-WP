@@ -7,7 +7,11 @@
 
 .automod {
   max-width: 700px;
-  margin: 0 auto;
+  margin-top: $base * 2;
+
+  [class^='col-'], .row, .container-fluid {
+    box-sizing: border-box;
+  }
 }
 
 .no-y-margin {
