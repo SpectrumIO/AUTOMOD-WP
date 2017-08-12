@@ -7,6 +7,7 @@ build/dir:
 
 build/source: build/dir
 	cp -r src/php/* target/automod
+	cp -r src/js/* target/automod/_inc
 	sass src/sass/index.scss target/automod/_inc/automod.css --style compressed
 	sass src/sass/vendor/chartist/chartist.scss target/automod/_inc/chartist.css --style compressed
 

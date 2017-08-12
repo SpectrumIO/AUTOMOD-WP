@@ -57,7 +57,14 @@ class Automod_Admin {
 
     public static function load_resources() {
         wp_register_style('automod.css', plugin_dir_url(__FILE__) . '_inc/automod.css', array(), AUTOMOD_VERSION);
+        wp_register_style('chartist.css', plugin_dir_url(__FILE__) . '_inc/chartist.css', array(), AUTOMOD_VERSION);
         wp_enqueue_style('automod.css');
+        wp_enqueue_style('chartist.css');
+
+        wp_register_script('chartist.js', plugin_dir_url(__FILE__) . '_inc/vendor/chartist.min.js', array(), AUTOMOD_VERSION);
+        wp_register_script('home.js', plugin_dir_url(__FILE__) . '_inc/home.js', array('jquery'), AUTOMOD_VERSION);
+        wp_enqueue_script('chartist.js');
+        wp_enqueue_script('home.js');
     }
 
     public static function display_page() {
@@ -66,8 +73,15 @@ class Automod_Admin {
             return;
         }
 
+        try {
+            $analytics_data = self::$api->fetch_analytics();
+        } catch (NetworkException $e) {
+            $analytics_data = null;
+        }
+
         Automod::view('home', array(
-            'api_key' => get_option(AUTOMOD__API_KEY_OPTION_NAME)
+            'api_key' => get_option(AUTOMOD__API_KEY_OPTION_NAME),
+            'analytics_data' => $analytics_data['body']['result']
         ));
     }
 

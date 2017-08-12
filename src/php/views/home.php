@@ -1,5 +1,5 @@
 <script>
-    window.analyticsData = JSON.parse(<?php print json_encode($analytics_data); ?>);
+    window.analyticsData = JSON.parse('<?php print json_encode($analytics_data); ?>');
 </script>
 <div class="container-fluid automod">
     <div class="row">
@@ -9,7 +9,13 @@
                     <h1>Spectrum AutoMod</h1>
                 </div>
                 <div class="automod--box-content">
-                    Analytics will appear here.
+                    <div id="analytics-container">
+                        No analytics yet! Check back later.
+                    </div>
+                    <div id="legend">
+                        <i></i>
+                        Number of Comments Checked
+                    </div>
                 </div>
             </div>
         </div>

@@ -19,10 +19,31 @@
   height: 8px;
   border-radius: 8px;
   margin-right: 3px;
-  background-color: green;
+  background-color: #09ca96;
   content: '';
 }
 
 .automod--home-disconnect {
   margin-top: $base;
+}
+
+.ct-label.ct-horizontal {
+  width: 50px !important;
+  transform: rotate(-45deg);
+  margin-top: 6px;
+}
+
+#legend {
+  display: flex;
+  align-items: center;
+
+  i {
+    display: block;
+    border-radius: 2px;
+    width: 25px;
+    height: 25px;
+    background: #09ca96;
+    float: left;
+    margin-right: 6px;
+  }
 }
