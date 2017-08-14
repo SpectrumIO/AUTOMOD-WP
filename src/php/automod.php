@@ -17,7 +17,7 @@ if (!function_exists('add_action')) {
 
 define('AUTOMOD_VERSION', '1.0.0');
 define('AUTOMOD__PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('AUTOMOD__API_BASE_URL', 'https://api-1.dev.getspectrum.io/api/v1/');
+define('AUTOMOD__API_BASE_URL', 'https://api.prod.getspectrum.io/api/v1/');
 define('AUTOMOD__API_KEY_OPTION_NAME', 'automod-api-key');
 
 require_once(AUTOMOD__PLUGIN_DIR . 'class.spectrum-api.php');
