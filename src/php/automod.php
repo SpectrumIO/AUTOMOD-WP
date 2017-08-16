@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Spectrum AutoMod
-Plugin URI: https://www.getspectrum.io/
-Description: Spectrum AutoMod
+Plugin Name: Spectrum - Intelligent Moderation
+Plugin URI: https://www.getspectrum.io
+Description: Use cutting-edge artificial intelligence to automatically protect your site from inappropriate comments.
 Version: 1.0.0
 Author: Spectrum Labs, Inc.
-Author URI: https://www.getspectrum.io/
+Author URI: https://www.getspectrum.io
 License: GPLv2 or later
 Text Domain: spectrum
 */
