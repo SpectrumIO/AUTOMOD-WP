@@ -1,6 +1,6 @@
 <?php
 
-class Automod {
+class Sicm_Automod {
     const API_HOST = 'api.getspectrum.io';
     const API_VERSION = '1.0';
     const API_PORT = 443;
@@ -19,11 +19,11 @@ class Automod {
 
     public static function init_hooks() {
         self::$initiated = true;
-        self::$api = new Spectrum_Api(get_option(AUTOMOD__API_KEY_OPTION_NAME, null));
+        self::$api = new Sicm_Spectrum_Api(get_option(SICM_AUTOMOD__API_KEY_OPTION_NAME, null));
 
-        add_filter('preprocess_comment', array('Automod', 'check_comment'), 1);
-        add_action('wp_insert_comment', array('Automod', 'check_comment_post_insert'), 10, 2);
-        add_action('transition_comment_status', array('Automod', 'transition_comment_status'), 10, 3);
+        add_filter('preprocess_comment', array('Sicm_Automod', 'check_comment'), 1);
+        add_action('wp_insert_comment', array('Sicm_Automod', 'check_comment_post_insert'), 10, 2);
+        add_action('transition_comment_status', array('Sicm_Automod', 'transition_comment_status'), 10, 3);
 
     }
 
@@ -38,7 +38,7 @@ class Automod {
         try {
             $result = self::$api->classify_text($comment_data['comment_as_submitted']['comment_content']);
             $comment_data['automod_result'] = $result['body']['result']['toxic'];
-        } catch (NetworkException $e) {
+        } catch (Sicm_NetworkException $e) {
             $comment_data['automod_result'] = 'error';
         }
 
@@ -69,8 +69,8 @@ class Automod {
 
     public static function transition_comment_status($new_status, $old_status, $comment) {
 
-        $new_status =  self::to_spectrum_adjudication($new_status);
-        $old_status =  self::to_spectrum_adjudication($old_status);
+        $new_status =  self::to_toxicity($new_status);
+        $old_status =  self::to_toxicity($old_status);
 
         if ($new_status == $old_status) {
             return;
@@ -86,26 +86,25 @@ class Automod {
 
         try {
             $result = self::$api->record_user_classification($comment->comment_content, $new_status);
-        } catch (NetworkException $e) {
+        } catch (Sicm_NetworkException $e) {
             $result = 'error';
         }
 
         return $result;
     }
 
-    public static function to_spectrum_adjudication($comment_status) {
-        if ($comment_status == 'approved') {
-            $comment_status = 'ALLOW';
-        }
-        else {
-            $comment_status = 'BLOCK';
+    public static function to_toxicity($status) {
+        if ($status == 'approved') {
+            $status = true;
+        } else {
+            $status = false;
         }
 
-        return $comment_status;
+        return $status;
     }
 
     public static function cleanup() {
-        delete_option(AUTOMOD__API_KEY_OPTION_NAME);
+        delete_option(SICM_AUTOMOD__API_KEY_OPTION_NAME);
     }
 
     public static function get_comment_history($comment_id) {
@@ -115,7 +114,7 @@ class Automod {
         }
 
         $history = get_comment_meta($comment_id, 'automod_history', false);
-        usort($history, array('Automod', '_cmp_time'));
+        usort($history, array('Sicm_Automod', '_cmp_time'));
         return $history;
     }
 
@@ -126,7 +125,7 @@ class Automod {
 
         load_plugin_textdomain('automod');
 
-        $file = AUTOMOD__PLUGIN_DIR . 'views/' . $name . '.php';
+        $file = SICM_AUTOMOD__PLUGIN_DIR . 'views/' . $name . '.php';
 
         include($file);
     }

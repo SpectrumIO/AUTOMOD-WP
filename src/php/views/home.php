@@ -35,7 +35,7 @@
                             value="<?php print $api_key; ?>"
                             class="automod--api-key form-control"
                     />
-                    <form action="<?php print esc_url(Automod_Admin::get_page_url()) ?>" method="POST"
+                    <form action="<?php print esc_url(Sicm_Automod_Admin::get_page_url()) ?>" method="POST"
                           class="automod--home-disconnect">
                         <input type="hidden" name="action" value="disconnect">
                         <button class="btn btn-secondary">

@@ -13,8 +13,8 @@
                                     Please sign in below using your Spectrum username
                                     and password.
                                 </p>
-                                <?php Automod_Admin::render_notices() ?>
-                                <form method="POST" action="<?php print esc_url(Automod_Admin::get_page_url()) ?>">
+                                <?php Sicm_Automod_Admin::render_notices() ?>
+                                <form method="POST" action="<?php print esc_url(Sicm_Automod_Admin::get_page_url()) ?>">
                                     <label>E-mail</label>
                                     <input class="form-control" name="email" type="text" />
                                     <label>Password</label>

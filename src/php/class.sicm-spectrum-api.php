@@ -1,7 +1,7 @@
 <?php
 
 
-class Spectrum_Api {
+class Sicm_Spectrum_Api {
     private $cookies = array();
 
     private $api_key;
@@ -29,7 +29,19 @@ class Spectrum_Api {
             $options['cookies'] = $this->cookies;
         }
 
-        $response = wp_safe_remote_post(AUTOMOD__API_BASE_URL . $service, $options);
+        $response = wp_safe_remote_post(SICM_AUTOMOD__API_BASE_URL . $service, $options);
+
+        if (is_wp_error($response)){
+            error_log('Received error from Spectrum backend!');
+            throw new Sicm_NetworkException(array(
+                'body' => array(
+                    'error' => array(
+                        'code' => -32601,
+                        'message' => 'Backend error.'
+                    )
+                )
+            ));
+        }
 
         try {
             $response['body'] = json_decode($response['body'], true);
@@ -43,7 +55,7 @@ class Spectrum_Api {
         }
 
         if ($throw_error && !self::is_ok($response)) {
-            throw new NetworkException($response);
+            throw new Sicm_NetworkException($response);
         }
 
         return $response;
@@ -77,10 +89,10 @@ class Spectrum_Api {
         ));
     }
 
-    public function record_user_classification($content, $adjudication) {
+    public function record_user_classification($content, $should_block) {
         return $this->call_rpc_method('classification', 'recordUserClassification', array(
             'content' => $content,
-            'adjudication' => $adjudication
+            'shouldBlock' => $should_block
         ));
     }
 
@@ -94,7 +106,7 @@ class Spectrum_Api {
     }
 }
 
-class NetworkException extends Exception {
+class Sicm_NetworkException extends Exception {
     private $response = array();
 
     public function __construct(array $response) {
