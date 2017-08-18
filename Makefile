@@ -18,6 +18,6 @@ sync: install
 install: build/clean build/source
 
 archive: install
-	zip -r target/spectrum-intelligent-moderation.zip target/spectrum-intelligent-moderation
+	cd target && zip -r spectrum-intelligent-moderation.zip spectrum-intelligent-moderation
 
 .PHONY: install sync
