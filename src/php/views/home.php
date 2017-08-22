@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="automod--box">
                 <div class="automod--box-title">
-                    <h1>Spectrum AutoMod</h1>
+                    <h1>Spectrum Intelligent Moderation</h1>
                 </div>
                 <div class="automod--box-content">
                     <div id="analytics-container">

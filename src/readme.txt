@@ -1,10 +1,10 @@
 === Spectrum Intelligent Moderation ===
-Contributors: mslipper
-Tags: comments, moderation, comment moderation, anti trolling
-Stable tag: 1.0
+Contributors: mslipper, jmo94301
+Tags: comments, moderation, comment moderation, anti trolling, thread, filter
+Stable tag: 1.1
 License: GPLv2 or later
 
-Use cutting-edge artificial intelligence to automatically protect your site from inappropriate comments.
+Cutting-edge artificial intelligence that automatically protects your site from inappropriate comments.
 
 == Description ==
 
@@ -28,7 +28,9 @@ PS: You’ll need a Spectrum API key to use our Intelligent Moderation platform.
 
 == Installation ==
 
-Upload the Spectrum Intelligent moderation plugin to your blog, activate it, then log in to your Spectrum account with your
-username and password. We'll automatically connect your accounts together.
+Upload the Spectrum Intelligent Moderation plugin to your blog, activate it, and log in with your Spectrum account (username and password). We’ll automatically connect your accounts.
 
-That's all there is to it!
+It’s that easy!
+
+= 1.1 =
+* Updated some copy
