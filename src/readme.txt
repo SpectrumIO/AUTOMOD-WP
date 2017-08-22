@@ -32,5 +32,7 @@ Upload the Spectrum Intelligent Moderation plugin to your blog, activate it, and
 
 It’s that easy!
 
+== Changelog ==
+
 = 1.1 =
 * Updated some copy
