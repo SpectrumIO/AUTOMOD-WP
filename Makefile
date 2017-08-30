@@ -13,7 +13,10 @@ build/source: build/dir
 	sass src/sass/vendor/chartist/chartist.scss target/spectrum-intelligent-moderation/_inc/chartist.css --style compressed
 
 sync: install
-	rsync -azP target/spectrum-intelligent-moderation ec2-user@54.193.117.231:/var/www/html/wordpress/wp-content/plugins
+	rsync -azP target/spectrum-intelligent-moderation ec2-user@54.193.117.231:~
+	ssh ec2-user@54.193.117.231 'sudo rm -rf /var/www/html/wordpress/wp-content/plugins/spectrum-intelligent-moderation && \
+		sudo mv /home/ec2-user/spectrum-intelligent-moderation /var/www/html/wordpress/wp-content/plugins && \
+		sudo chown -R apache:apache /var/www/html'
 
 install: build/clean build/source
 
