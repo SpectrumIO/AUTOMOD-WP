@@ -34,5 +34,8 @@ It’s that easy!
 
 == Changelog ==
 
+= 1.2 =
+* Fix a bug affecting Akismet-enabled blogs.
+
 = 1.1 =
 * Updated some copy
