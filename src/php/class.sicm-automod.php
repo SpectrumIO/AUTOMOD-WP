@@ -35,8 +35,16 @@ class Sicm_Automod {
 
         self::$last_comment = null;
 
+        // handle akismet on/off
+        if (isset($comment_data['comment_as_submitted']) &&
+            isset($comment_data['comment_as_submitted']['comment_content'])) {
+            $text = $comment_data['comment_as_submitted']['comment_content'];
+        } else {
+            $text = $comment_data['comment_content'];
+        }
+
         try {
-            $result = self::$api->classify_text($comment_data['comment_as_submitted']['comment_content']);
+            $result = self::$api->classify_text($text);
             $comment_data['automod_result'] = $result['body']['result']['toxic'];
         } catch (Sicm_NetworkException $e) {
             $comment_data['automod_result'] = 'error';
