@@ -1,7 +1,7 @@
 === Spectrum Intelligent Moderation ===
 Contributors: mslipper, jmo94301
 Tags: comments, moderation, comment moderation, anti trolling, thread, filter
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 
 Cutting-edge artificial intelligence that automatically protects your site from inappropriate comments.
