@@ -83,19 +83,23 @@ class Sicm_Spectrum_Api {
         ));
     }
 
-    public function classify_text($text, $author, $stream, $wordpressId) {
+    public function classify_text($text, $author, $postId, $wordpressId) {
         return $this->call_rpc_method('classification', 'classifyText', array(
             'text' => $text,
-            'author' => $author,
-            'stream' => $stream,
-            'wordpressId' => $wordpressId
+            'meta' => array(
+                'authorName' => $author,
+                'streamId' => $postId,
+                'remoteId' => $wordpressId
+            )
         ));
     }
 
-    public function record_user_classification($content, $should_block) {
+    public function record_user_classification($wordpressId, $userPositive) {
         return $this->call_rpc_method('classification', 'recordUserClassification', array(
-            'content' => $content,
-            'shouldBlock' => $should_block
+            'request' => array(
+                'userPositive' => $userPositive,
+                'remoteId' => $wordpressId
+            )
         ));
     }
 

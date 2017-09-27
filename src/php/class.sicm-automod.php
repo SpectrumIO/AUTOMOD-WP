@@ -21,49 +21,22 @@ class Sicm_Automod {
         self::$initiated = true;
         self::$api = new Sicm_Spectrum_Api(get_option(SICM_AUTOMOD__API_KEY_OPTION_NAME, null));
 
-        add_filter('preprocess_comment', array('Sicm_Automod', 'check_comment'), 1);
         add_action('wp_insert_comment', array('Sicm_Automod', 'check_comment_post_insert'), 10, 2);
         add_action('transition_comment_status', array('Sicm_Automod', 'transition_comment_status'), 10, 3);
 
     }
 
-    public static function check_comment($comment_data) {
-        // automatically return early for comments from registered users
-        if ($comment_data['user_id']) {
-            return $comment_data;
-        }
-
-        self::$last_comment = null;
-
-        // handle akismet on/off
-        if (isset($comment_data['comment_as_submitted']) &&
-            isset($comment_data['comment_as_submitted']['comment_content'])) {
-            $text = $comment_data['comment_as_submitted']['comment_content'];
-        } else {
-            $text = $comment_data['comment_content'];
-        }
-
-        try {
-            $result = self::$api->classify_text($text);
-            $comment_data['automod_result'] = $result['body']['result']['toxic'];
-        } catch (Sicm_NetworkException $e) {
-            $comment_data['automod_result'] = 'error';
-        }
-
-        self::$last_comment = $comment_data;
-        return $comment_data;
-    }
-
     public static function check_comment_post_insert($id, $comment) {
-        if (!self::matches_last_comment($comment)) {
-            return;
+        try {
+            $result = self::$api->classify_text(
+                $comment->comment_content, $comment->author, $comment->comment_post_ID, $id);
+            $automod_result = $result['body']['result']['toxic'];
+        } catch (Sicm_NetworkException $e) {
+            $automod_result = 'error';
         }
 
-        $last_comment = self::$last_comment;
-        $result = $last_comment['automod_result'];
-
-        if ($result === true || $result == 'error') {
-            if ($result === true) {
+        if ($automod_result === true || $automod_result == 'error') {
+            if ($automod_result === true) {
                 self::update_comment_history($comment->comment_ID, 'check-hold');
             } else {
                 self::update_comment_history($comment->comment_ID, 'check-error');
@@ -76,9 +49,8 @@ class Sicm_Automod {
     }
 
     public static function transition_comment_status($new_status, $old_status, $comment) {
-
-        $new_status =  self::to_toxicity($new_status);
-        $old_status =  self::to_toxicity($old_status);
+        $new_status = self::to_toxicity($new_status);
+        $old_status = self::to_toxicity($old_status);
 
         if ($new_status == $old_status) {
             return;
@@ -93,7 +65,7 @@ class Sicm_Automod {
         }
 
         try {
-            $result = self::$api->record_user_classification($comment->comment_content, $new_status);
+            $result = self::$api->record_user_classification($comment->comment_ID, $new_status);
         } catch (Sicm_NetworkException $e) {
             $result = 'error';
         }
