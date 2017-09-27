@@ -23,16 +23,24 @@ class Sicm_Automod {
 
         add_action('wp_insert_comment', array('Sicm_Automod', 'check_comment_post_insert'), 10, 2);
         add_action('transition_comment_status', array('Sicm_Automod', 'transition_comment_status'), 10, 3);
-
     }
 
     public static function check_comment_post_insert($id, $comment) {
+
+        if ($comment->user_id != 0) {
+            return;
+        }
+
         try {
             $result = self::$api->classify_text(
-                $comment->comment_content, $comment->author, $comment->comment_post_ID, $id);
+                $comment->comment_content, $comment->comment_author, $comment->comment_author_email, $comment->comment_post_ID, $id);
             $automod_result = $result['body']['result']['toxic'];
         } catch (Sicm_NetworkException $e) {
             $automod_result = 'error';
+        }
+
+        if (current_user_can('edit_post', $comment->comment_post_ID) || current_user_can('moderate_comments')) {
+            add_comment_meta( $id, 'initial_status_set', 'true');
         }
 
         if ($automod_result === true || $automod_result == 'error') {
@@ -49,14 +57,25 @@ class Sicm_Automod {
     }
 
     public static function transition_comment_status($new_status, $old_status, $comment) {
-        $new_status = self::to_toxicity($new_status);
-        $old_status = self::to_toxicity($old_status);
+
+        if ($comment->user_id != 0) {
+            return;
+        }
+
+        $new_status = self::to_toxic($new_status);
+        $old_status = self::to_toxic($old_status);
 
         if ($new_status == $old_status) {
             return;
         }
 
         if (!current_user_can('edit_post', $comment->comment_post_ID) && !current_user_can('moderate_comments')) {
+            return;
+        }
+
+        $initial_status_set = get_comment_meta($comment->comment_ID, 'initial_status_set', true);
+
+        if (!empty($initial_status_set) && delete_comment_meta($comment->comment_ID, 'initial_status_set')) {
             return;
         }
 
@@ -73,14 +92,8 @@ class Sicm_Automod {
         return $result;
     }
 
-    public static function to_toxicity($status) {
-        if ($status == 'approved') {
-            $status = false;
-        } else {
-            $status = true;
-        }
-
-        return $status;
+    public static function to_toxic($status) {
+        return $status != 'approved';
     }
 
     public static function cleanup() {

@@ -83,11 +83,12 @@ class Sicm_Spectrum_Api {
         ));
     }
 
-    public function classify_text($text, $author, $postId, $wordpressId) {
+    public function classify_text($text, $authorName, $authorEmail, $postId, $wordpressId) {
         return $this->call_rpc_method('classification', 'classifyText', array(
             'text' => $text,
             'meta' => array(
-                'authorName' => $author,
+                'authorName' => $authorName,
+                'authorId' => $authorEmail,
                 'streamId' => $postId,
                 'remoteId' => $wordpressId
             )
