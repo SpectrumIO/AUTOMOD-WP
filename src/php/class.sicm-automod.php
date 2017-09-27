@@ -33,14 +33,15 @@ class Sicm_Automod {
 
         try {
             $result = self::$api->classify_text(
-                $comment->comment_content, $comment->comment_author, $comment->comment_author_email, $comment->comment_post_ID, $id);
+                $comment->comment_content,
+                $comment->comment_author,
+                $comment->comment_author_email,
+                $comment->comment_author_IP,
+                $comment->comment_post_ID,
+                $id);
             $automod_result = $result['body']['result']['toxic'];
         } catch (Sicm_NetworkException $e) {
             $automod_result = 'error';
-        }
-
-        if (current_user_can('edit_post', $comment->comment_post_ID) || current_user_can('moderate_comments')) {
-            add_comment_meta( $id, 'initial_status_set', 'true');
         }
 
         if ($automod_result === true || $automod_result == 'error') {
@@ -62,9 +63,6 @@ class Sicm_Automod {
             return;
         }
 
-        $new_status = self::to_toxic($new_status);
-        $old_status = self::to_toxic($old_status);
-
         if ($new_status == $old_status) {
             return;
         }
@@ -73,18 +71,12 @@ class Sicm_Automod {
             return;
         }
 
-        $initial_status_set = get_comment_meta($comment->comment_ID, 'initial_status_set', true);
-
-        if (!empty($initial_status_set) && delete_comment_meta($comment->comment_ID, 'initial_status_set')) {
-            return;
-        }
-
         if (defined('WP_IMPORTING') && WP_IMPORTING == true) {
             return;
         }
 
         try {
-            $result = self::$api->record_user_classification($comment->comment_ID, $new_status);
+            $result = self::$api->record_user_classification($comment->comment_ID, self::to_toxic($new_status));
         } catch (Sicm_NetworkException $e) {
             $result = 'error';
         }
